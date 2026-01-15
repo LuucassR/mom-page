@@ -1,4 +1,5 @@
 import logo from "../images/logo.jpeg";
+import "./components.css"
 
 export default function NavBar() {
   return (

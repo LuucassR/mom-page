@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import "./components.css"
 
 const AdminPanel: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);

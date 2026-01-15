@@ -1,6 +1,7 @@
 import React from "react";
 import NavBar from "./NavBar";
 import { useNavigate } from "react-router";
+import "./components.css"
 
 const UserDataForm: React.FC = () => {
   const navigate = useNavigate();

@@ -6,19 +6,18 @@
 
 generator client {
   provider = "prisma-client"
-  output   = "../src/generated/prisma"
+  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
-  nombre   String
-  email    String @unique
-  telefono String
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  email     String   @unique
+  telefono  String
 
   cotizacion Cotizacion?
 
@@ -26,17 +25,17 @@ model User {
 }
 
 model Cotizacion {
-  id Int @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
 
-  marca    String
-  modelo   String
-  anio     String
-  version  String
-  es0km    Boolean
-  tieneGNC Boolean
+  marca     String
+  modelo    String
+  anio      String
+  version   String
+  es0km     Boolean
+  tieneGNC  Boolean
 
-  userId Int  @unique
-  user   User @relation(fields: [userId], references: [id])
+  userId    Int      @unique
+  user      User     @relation(fields: [userId], references: [id])
 
   createdAt DateTime @default(now())
 }

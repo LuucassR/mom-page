@@ -1,4 +1,4 @@
-import "./components.css";
+import "./components.css"
 
 interface AdProps {
   type: string;

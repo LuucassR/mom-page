@@ -1,4 +1,3 @@
-import "./components.css";
 import motorbike from "../images/motorbike.png";
 import Car from "../images/car.png"
 import bicycle from "../images/bycicle.png"
@@ -7,6 +6,7 @@ import life from "../images/life-insurance.png"
 import art from "../images/injuries.png"
 import store from "../images/store.png"
 import delivery from "../images/delivery.png"
+import "./components.css"
 
 export const SECURES = [
   {

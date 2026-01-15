@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import type { ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
+import "./components.css"
 
 interface Marca {
   Make_ID: number;

@@ -18,7 +18,7 @@ app.use(session({
   cookie: { secure: false } // Ponlo en true si usas HTTPS
 }));
 
-app.post("/carData", async (req, res) => {
+app.post("/carData", async (req: Request, res: Response) => {
   try {
     req.session.carData = req.body;
     res.json({ ok: true });

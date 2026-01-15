@@ -1,5 +1,6 @@
 import { useState, useRef } from "react"
 import { Smartphone, Send } from "lucide-react"
+import "./components.css"
 
 const Contact = () => {
   const form = useRef<HTMLFormElement | null>(null)

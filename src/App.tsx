@@ -5,6 +5,7 @@ import Contact from "./components/Contact";
 import Client from "./components/client";
 import { useState } from "react";
 import car from "./images/car.png"
+import "./App.css"
 
 export default function App() {
   const [adImage, setAdImage] = useState<string | null>(null);

@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router";
+import "./components.css"
 
 export default function Client() {
   const navigate = useNavigate()
