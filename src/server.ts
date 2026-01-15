@@ -5,9 +5,12 @@ import session from 'express-session';
 import { prisma } from "./lib/prisma";
 
 const app = express()
-let cotizaciones: any[] = [];
 
-app.use(cors())
+app.use(cors({
+  origin: "http://localhost:5173",
+  credentials: true
+}));
+
 app.use(express.json())
 
 app.use(express.urlencoded({ extended: true }));
@@ -15,16 +18,33 @@ app.use(session({
   secret: 'mi_secreto_para_el_dashboard',
   resave: false,
   saveUninitialized: false,
-  cookie: { secure: false } // Ponlo en true si usas HTTPS
+  name: 'mipagina.sid', // Nombre personalizado para la cookie
+  cookie: { 
+    secure: false,      // false porque usas http (no https) en local
+    httpOnly: true,     // por seguridad
+    sameSite: 'lax'     // ayuda con el manejo de CORS en navegadores modernos
+  }
 }));
+
+app.get("/getCotizaciones", async (_req, res) => {
+  try {
+    const data = await prisma.user.findMany({
+      include: { cotizacion: true },
+      orderBy: { createdAt: 'desc' } // Opcional: ver las más nuevas primero
+    });
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener datos" });
+  }
+})
 
 app.post("/carData", async (req: Request, res: Response) => {
   try {
     req.session.carData = req.body;
     res.json({ ok: true });
   } catch (err) {
-    console.error(err);
     res.status(500).json({ error: "Error guardando vehículo" });
+    return console.error(err)
   }
 });
 
@@ -65,10 +85,6 @@ app.post("/userData", async (req, res) => {
     console.error(err);
     res.status(500).json({ error: "Error guardando datos" });
   }
-});
-
-app.get("/getCotizaciones", (_req: Request, res: Response) => {
-  res.json(cotizaciones);
 });
 
 app.get("/dashboard/data", async (_req, res) => {

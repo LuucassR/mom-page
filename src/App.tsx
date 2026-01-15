@@ -12,7 +12,7 @@ export default function App() {
   const [adType, setAdType] = useState<string | null>(null);
 
   return (
-    <div className="bg-[#e3e3e3] min-h-screen w-screen">
+    <div className="bg-[#e3e3e3] h-screen w-full">
       <NavBar />
 
       {(!adType && !adImage) ? <Add type={"Auto"} image={car} /> : adType && adImage && <Add type={adType} image={adImage} />}

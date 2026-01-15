@@ -1,5 +1,6 @@
 import "./components.css"
 
+
 interface AdProps {
   type: string;
   image: string;
