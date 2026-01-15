@@ -22,7 +22,7 @@ export const SECURES = [
     image: bicycle,
   },
   {
-    type: "Trandssporte",
+    type: "Transporte",
     image: delivery,
   },
   {

@@ -1,19 +1,10 @@
-import "./components.css";
+import logo from "../images/logo.jpeg";
 
 export default function NavBar() {
   return (
-    <div className="bg-white shadow-xl shadow-black/4 w-screen">
-      <style>
-      </style>
-      <div className="flex w-screen">
-        <svg
-          className="size-10 self-center cursor-pointer"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-        >
-          <title>menu</title>
-          <path d="M3,8V7H20V8H3M20,12V13H3V12H20M3,17H20V18H3V17Z" />
-        </svg>
+    <div className="bg-[#151747] shadow-xl">
+      <div className="flex items-center justify-center w-full p-2">
+        <img src={logo} alt="Logo" className="object-contain size-16" />
       </div>
     </div>
   );

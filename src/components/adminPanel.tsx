@@ -6,6 +6,22 @@ const AdminPanel: React.FC = () => {
   const [pass, setPass] = useState("");
   const [data, setData] = useState<any[]>([]);
 
+  const fetchCotizaciones = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/getCotizaciones");
+      const result = await response.json();
+      setData(result);
+    } catch (error) {
+      console.error("Error cargando cotizaciones:", error);
+    }
+  };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      fetchCotizaciones();
+    }
+  }, [isLoggedIn]);
+
   // Cargar datos del localStorage
   useEffect(() => {
     const savedData = JSON.parse(localStorage.getItem('cotizaciones') || '[]');
@@ -15,7 +31,7 @@ const AdminPanel: React.FC = () => {
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
     // Login simple para demostración
-    if (user === "admin" && pass === "1234") {
+    if (user === "vanesa" && pass === "Luna1508") {
       setIsLoggedIn(true);
     } else {
       alert("Credenciales incorrectas");

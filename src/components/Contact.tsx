@@ -1,112 +1,99 @@
-import { useState, useRef } from "react";
-import { Smartphone, Send} from "lucide-react";
-import emailjs from "@emailjs/browser";
+import { useState, useRef } from "react"
+import { Smartphone, Send } from "lucide-react"
 
 const Contact = () => {
-  const form = useRef<any>(null);
-  const [status, setStatus] = useState(""); // para mostrar mensajes de éxito/error
+  const form = useRef<HTMLFormElement | null>(null)
+  const [status, setStatus] = useState<"idle" | "enviando" | "exito" | "error">("idle")
 
-  const sendEmail = (e: any) => {
-    e.preventDefault();
-    setStatus("enviando");
+  const sendForm = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setStatus("enviando")
 
-    emailjs
-      .sendForm(
-        "service_k6mfsms", // Reemplaza con el tuyo
-        "template_i600op7", // Reemplaza con el tuyo
-        form.current,
-        "0Oe9gArHX0PqdAKsvGaR1" // Reemplaza con el tuyo
-      )
-      .then(
-        () => {
-          setStatus("exito");
-          form.current.reset(); // Limpia el formulario
+    if (!form.current) return
+
+    const formData = new FormData(form.current)
+
+    const data = {
+      name: formData.get("user_name"),
+      email: formData.get("user_email"),
+      message: formData.get("message"),
+    }
+
+    try {
+      const res = await fetch("http://localhost:3000/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
         },
-        (error) => {
-          setStatus("error");
-          console.log("Fallo...", error.text);
-        }
-      );
-  };
+        body: JSON.stringify(data),
+      })
+
+      if (!res.ok) throw new Error("Error al enviar")
+
+      setStatus("exito")
+      form.current.reset()
+    } catch (error) {
+      console.error(error)
+      setStatus("error")
+    }
+  }
 
   return (
-    <section
-      id="contact"
-      className="py-20 px-4 bg-white relative overflow-hidden"
-    >
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-4xl bg-blue-500/5 blur-3xl pointer-events-none rounded-full"></div>
+    <section id="contact" className="py-20 px-4 bg-white">
+      <div className="max-w-md mx-auto text-center">
+        <h2 className="text-4xl font-bold mb-6">Contacto</h2>
 
-      <div className="max-w-3xl mx-auto text-center relative z-10">
-        <h2 className="text-4xl md:text-5xl font-bold text-black mb-6">
-          Contacto
-        </h2>
-        {/* Formulario mejorado */}
-        <form
-          ref={form}
-          onSubmit={sendEmail}
-          className="max-w-md mx-auto space-y-4 mb-12"
-        >
+        <form ref={form} onSubmit={sendForm} className="space-y-4">
           <input
             type="text"
             name="user_name"
             placeholder="Tu Nombre"
             required
-            className="w-full bg-gray-100 border border-slate-700 rounded-xl p-3 text-black focus:outline-none transition-colors"
+            className="w-full border rounded-xl p-3"
           />
+
           <input
             type="email"
             name="user_email"
             placeholder="Tu Email"
             required
-            className="w-full bg-gray-100 border border-slate-700 rounded-xl p-3 text-black focus:outline-none transition-colors"
+            className="w-full border rounded-xl p-3"
           />
+
           <textarea
             name="message"
-            placeholder="Tu Mensaje ( Puedes dejar tu numero aqui o contactarme por whatsapp y te respondere lo antes posible )"
+            placeholder="Tu Mensaje"
+            rows={4}
             required
-            // @ts-ignore
-            rows="4"
-            className="w-full bg-gray-100 border border-slate-700 rounded-xl p-3 text-black focus:outline-none transition-colors"
+            className="w-full border rounded-xl p-3"
           />
 
           <button
             type="submit"
             disabled={status === "enviando"}
-            className="w-full flex items-center justify-center gap-3 bg-blue-600 text-white px-6 py-4 rounded-xl font-bold hover:bg-blue-700 transition-all disabled:opacity-50"
+            className="w-full flex items-center justify-center gap-2 bg-blue-600 text-white py-3 rounded-xl"
           >
-            {status === "enviando" ? (
-              "Enviando..."
-            ) : (
-              <>
-                <Send size={20} /> Enviar Mensaje
-              </>
-            )}
+            {status === "enviando" ? "Enviando..." : <><Send size={18} /> Enviar</>}
           </button>
 
           {status === "exito" && (
-            <p className="text-green-400 mt-2">¡Mensaje enviado con éxito!</p>
+            <p className="text-green-600">Mensaje enviado correctamente</p>
           )}
           {status === "error" && (
-            <p className="text-red-400 mt-2">
-              Hubo un error, intenta de nuevo.
-            </p>
+            <p className="text-red-600">Ocurrió un error</p>
           )}
         </form>
 
-        {/* Tus enlaces originales como respaldo */}
-        <div className="flex flex-wrap justify-center gap-4 max-w-lg mx-auto">
-          <a
-            href="https://wa.me/3424483534"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-3 bg-[#25D366] text-white px-6 py-3 rounded-xl font-bold hover:scale-105 transition-transform"
-          >
-            <Smartphone size={20} /> WhatsApp
-          </a>
-        </div>
+        <a
+          href="https://wa.me/3424483534"
+          target="_blank"
+          className="inline-flex mt-6 items-center gap-2 bg-green-500 text-white px-6 py-3 rounded-xl"
+        >
+          <Smartphone size={18} /> WhatsApp
+        </a>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Contact;
+export default Contact
