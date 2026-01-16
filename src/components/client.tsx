@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router";
+import "./components.css"
 
 export default function Client() {
   const navigate = useNavigate()
   return (
-    <div className="bg-white flex items-end gap-4 justify-center absolute w-screen p-5 shadow-2xl shadow-black">
+    <div className="bg-white flex items-end gap-4 justify-center absolute w-full p-5 shadow-2xl shadow-black">
       <button onClick={() => navigate("/cotizacion")}>
         <svg
         className="justify-self-center"

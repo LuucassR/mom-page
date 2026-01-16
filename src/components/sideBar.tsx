@@ -1,4 +1,5 @@
-// Definimos qué recibe el componente
+import "./components.css"
+
 interface SideBarProps {
   show: boolean;
   toggle: () => void;

@@ -1,6 +1,7 @@
 import React from "react";
 import NavBar from "./NavBar";
 import { useNavigate } from "react-router";
+import "./components.css";
 
 const UserDataForm: React.FC = () => {
   const navigate = useNavigate();
@@ -16,15 +17,23 @@ const UserDataForm: React.FC = () => {
     };
 
     try {
-      await fetch("http://localhost:3000/userData", {
+      const response = await fetch("http://localhost:8080/userData", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
+        credentials: "include",
       });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        alert(errorData.error); // Aquí verás "No hay datos del vehículo"
+        return;
+
+      }
+
+      navigate("/");
     } catch (err) {
       console.error(err);
-    } finally {
-      navigate("/");
     }
   };
 
@@ -32,7 +41,9 @@ const UserDataForm: React.FC = () => {
     <div className="h-screen bg-blue-600">
       <NavBar />
       <div className="flex-col bg-blue-600 mt-20 flex items-center justify-center p-6">
-        <a href="/" className="text-white mb-5">{"<- home"}</a>
+        <a href="/" className="text-white mb-5 text-2xl">
+          {"<- home"}
+        </a>
         <div className="w-full max-w-lg bg-white rounded-3xl shadow-2xl p-8">
           <h2 className="text-3xl font-bold text-gray-800 mb-6">
             Datos personales

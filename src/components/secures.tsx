@@ -1,4 +1,3 @@
-import "./components.css";
 import motorbike from "../images/motorbike.png";
 import Car from "../images/car.png"
 import bicycle from "../images/bycicle.png"
@@ -7,6 +6,7 @@ import life from "../images/life-insurance.png"
 import art from "../images/injuries.png"
 import store from "../images/store.png"
 import delivery from "../images/delivery.png"
+import "./components.css"
 
 export const SECURES = [
   {
@@ -52,7 +52,7 @@ interface SecureProps {
 
 function SecureCard({ type, image }: { type: string; image: string }) {
   return (
-    <div className="bg-white hover:bg-blue-500 transition rounded-2xl p-4 cursor-pointer">
+    <div className="bg-white hover:bg-blue-500 transition rounded-2xl cursor-pointer">
       <img src={image} alt={type} className="h-24 mx-auto mb-2" />
       <p className="text-center font-semibold">
         Cotizar seguro {type}
@@ -68,7 +68,7 @@ export default function Secure({ onSelect }: SecureProps) {
         ¿Qué seguros tenemos?
       </h2>
 
-      <div className="grid m-5 gap-5 grid-cols-2">
+      <div className="grid bg-[#e3e3e3] p-5  gap-5 grid-cols-2">
         {SECURES.map((secure) => (
           <button
             key={secure.type}

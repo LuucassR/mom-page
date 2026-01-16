@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import type { ChangeEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import NavBar from "./NavBar";
+import "./components.css";
 
 interface Marca {
   Make_ID: number;
@@ -103,11 +104,26 @@ const CotizadorSeguros: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
+    const dataToSubmit = {
+      ...formData,
+      // Si la marca es "OTRO", usamos la personalizada, si no, la del select
+      marca:
+        formData.marca === "OTRO"
+          ? formData.marcaPersonalizada
+          : formData.marca,
+      // Lo mismo para el modelo
+      modelo:
+        formData.modelo === "OTRO"
+          ? formData.modeloPersonalizado
+          : formData.modelo,
+      // Y para el tipo de seguro
+    };
     try {
-      await fetch("http://localhost:3000/carData", {
+      await fetch("http://localhost:8080/carData", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
+        credentials: "include",
       });
     } catch (err) {
       console.log(err);
@@ -120,7 +136,7 @@ const CotizadorSeguros: React.FC = () => {
     <div className="min-h-screen bg-blue-600">
       <NavBar />
       <div className="flex flex-col mt-20 items-center justify-center p-5">
-        <a href="/" className="text-white mb-4">
+        <a href="/" className="text-white mb-4 text-2xl">
           {"<- home"}
         </a>
         <div className="w-full max-w-lg bg-white rounded-3xl shadow-2xl p-8">
@@ -216,7 +232,70 @@ const CotizadorSeguros: React.FC = () => {
               className="w-full p-4 bg-gray-100 rounded-2xl"
             />
 
-            {/* ... (Toggles de 0km y GNC igual que antes) ... */}
+            <select name="tipoSeguro" onChange={handleChange} className="input">
+              <option value="">Tipo de seguro</option>
+              <option value="Terceros">Terceros</option>
+              <option value="Todo riesgo">Todo riesgo</option>
+              <option value="OTRO">OTRO</option>
+            </select>
+
+            <label className="flex justify-between items-center cursor-pointer group">
+              <span className="text-gray-700 font-medium">¿Es 0 km?</span>
+
+              {/* Contenedor del Switch */}
+              <div className="relative">
+                <input
+                  type="checkbox"
+                  name="es0km"
+                  className="sr-only peer" // "sr-only" lo oculta visualmente pero lo deja accesible
+                  checked={formData.es0km}
+                  onChange={handleChange}
+                />
+
+                {/* El riel (fondo) */}
+                <div
+                  className="w-11 h-6 bg-gray-200 rounded-full peer 
+                    peer-focus:ring-2 peer-focus:ring-blue-300 
+                    peer-checked:bg-blue-600 transition-colors duration-300"
+                ></div>
+
+                {/* El círculo (bolita) */}
+                <div
+                  className="absolute top-0.5 left-0.5 bg-white border-gray-300 
+                    border rounded-full h-5 w-5 transition-all duration-300
+                    peer-checked:translate-x-full peer-checked:border-white"
+                ></div>
+              </div>
+            </label>
+
+            <label className="flex justify-between items-center cursor-pointer group">
+              <span className="text-gray-700 font-medium">¿Tiene GNC?</span>
+
+              {/* Contenedor del Switch */}
+              <div className="relative">
+                <input
+                  type="checkbox"
+                  name="tieneGNC"
+                  className="sr-only peer" // "sr-only" lo oculta visualmente pero lo deja accesible
+                  checked={formData.tieneGNC}
+                  onChange={handleChange}
+                />
+
+                {/* El riel (fondo) */}
+                <div
+                  className="w-11 h-6 bg-gray-200 rounded-full peer 
+                    peer-focus:ring-2 peer-focus:ring-blue-300 
+                    peer-checked:bg-blue-600 transition-colors duration-300"
+                ></div>
+
+                {/* El círculo (bolita) */}
+                <div
+                  className="absolute top-0.5 left-0.5 bg-white border-gray-300 
+                    border rounded-full h-5 w-5 transition-all duration-300
+                    peer-checked:translate-x-full peer-checked:border-white"
+                ></div>
+              </div>
+            </label>
 
             <button
               type="submit"
