@@ -8,35 +8,21 @@ datasource db {
 }
 
 model User {
-<<<<<<< HEAD
   id        Int       @id @default(autoincrement())
   nombre    String
   email     String    @unique
   telefono  String
   createdAt DateTime  @default(now())
   cotizacion cotizacion?
-=======
-  id        Int      @id @default(autoincrement())
-  nombre    String
-  email     String   @unique
-  telefono  String
->>>>>>> 154a4449482de0c4cf559b792e6d3e4043010b5b
 
 }
 
-<<<<<<< HEAD
 model cotizacion {
   id        Int     @id @default(autoincrement())
-=======
-model Cotizacion {
-  id        Int      @id @default(autoincrement())
-
->>>>>>> 154a4449482de0c4cf559b792e6d3e4043010b5b
   marca     String
   modelo    String
   anio      String
   version   String
-<<<<<<< HEAD
   es0km     Boolean @default(false)
   tieneGNC  Boolean @default(false)
   tipoSeguro String @default("Terceros")
@@ -47,13 +33,3 @@ model Cotizacion {
   updatedAt DateTime @default(now()) @updatedAt
 
 }
-=======
-  es0km     Boolean
-  tieneGNC  Boolean
-
-  userId    Int      @unique
-  user      User     @relation(fields: [userId], references: [id])
-
-  createdAt DateTime @default(now())
-}
->>>>>>> 154a4449482de0c4cf559b792e6d3e4043010b5b

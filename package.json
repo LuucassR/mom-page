@@ -7,11 +7,7 @@
     "@types/pg": "^8.16.0",
     "@types/react-dom": "^19.2.3",
     "concurrently": "^9.2.1",
-<<<<<<< HEAD
     "prisma": "^7.2.0",
-=======
-    "prisma": "^6.19.2",
->>>>>>> 154a4449482de0c4cf559b792e6d3e4043010b5b
     "tsx": "^4.21.0",
     "typescript": "^5.9.3"
   },
