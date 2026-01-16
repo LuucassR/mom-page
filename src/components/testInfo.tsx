@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { API_URL } from "../lib/apiConfig";
 
 
 export default function Test() {
@@ -6,7 +7,7 @@ export default function Test() {
 
 
   async function getData() {
-    await fetch("http://localhost:8080/getCotizaciones")
+    await fetch(`${API_URL}/getCotizaciones`)
       .then((response) => response.json())
       .then((data) => setData(data));
     console.log(data)

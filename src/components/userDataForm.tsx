@@ -2,6 +2,7 @@ import React from "react";
 import NavBar from "./NavBar";
 import { useNavigate } from "react-router";
 import "./components.css";
+import { API_URL } from "../lib/apiConfig";
 
 const UserDataForm: React.FC = () => {
   const navigate = useNavigate();
@@ -17,7 +18,7 @@ const UserDataForm: React.FC = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:8080/userData", {
+      const response = await fetch(`${API_URL}/userData`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

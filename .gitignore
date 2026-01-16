@@ -11,7 +11,11 @@ node_modules
 dist
 dist-ssr
 *.local
+
+# Environment variables
 .env
+.env.local
+.env.*.local
 
 # Editor directories and files
 .vscode/*
@@ -24,10 +28,18 @@ dist-ssr
 *.sln
 *.sw?
 
-/src/generated/prisma
-
+# Generated Prisma
 /generated/prisma
 
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
 /generated/prisma
 
 /generated/prisma

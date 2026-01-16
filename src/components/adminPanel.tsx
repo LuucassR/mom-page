@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "./components.css";
+import { API_URL } from "../lib/apiConfig";
 
 const AdminPanel: React.FC = () => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -10,7 +11,7 @@ const AdminPanel: React.FC = () => {
 
   const fetchCotizaciones = async () => {
     try {
-      const response = await fetch("http://localhost:8080/getCotizaciones", {
+      const response = await fetch(`${API_URL}/getCotizaciones`, {
         credentials: "include",
       });
       const result = await response.json();
@@ -25,7 +26,7 @@ const AdminPanel: React.FC = () => {
   useEffect(() => {
     const validateSession = async () => {
       try {
-        const response = await fetch("http://localhost:8080/admin/validate-session", {
+        const response = await fetch(`${API_URL}/admin/validate-session`, {
           credentials: "include",
         });
         if (response.ok) {
@@ -53,7 +54,7 @@ const AdminPanel: React.FC = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:8080/admin/login", {
+      const response = await fetch(`${API_URL}/admin/login`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ usuario: user, password: pass }),
@@ -75,7 +76,7 @@ const AdminPanel: React.FC = () => {
 
   const handleLogout = async () => {
     try {
-      await fetch("http://localhost:8080/admin/logout", {
+      await fetch(`${API_URL}/admin/logout`, {
         method: "POST",
         credentials: "include",
       });
@@ -87,7 +88,7 @@ const AdminPanel: React.FC = () => {
 
   const handleMarcarCompletada = async (cotizacionId: number) => {
     try {
-      await fetch(`http://localhost:8080/cotizacion/${cotizacionId}/marcar-completada`, {
+      await fetch(`${API_URL}/cotizacion/${cotizacionId}/marcar-completada`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -101,7 +102,7 @@ const AdminPanel: React.FC = () => {
   const handleEliminar = async (cotizacionId: number, userId: number) => {
     if (window.confirm("¿Está seguro que desea eliminar esta cotización y el usuario?")) {
       try {
-        await fetch(`http://localhost:8080/cotizacion/${cotizacionId}`, {
+        await fetch(`${API_URL}/cotizacion/${cotizacionId}`, {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId }),
