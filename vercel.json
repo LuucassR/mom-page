@@ -2,13 +2,22 @@
   "buildCommand": "npm run build",
   "outputDirectory": "dist",
   "env": {
-    "VITE_API_URL": "@vite_api_url"
+    "VITE_API_URL": "@vite_api_url",
+    "DATABASE_URL": "@database_url",
+    "FRONTEND_URL": "@frontend_url",
+    "SESSION_SECRET": "@session_secret"
   },
   "functions": {
-    "src/server.ts": {
+    "api/index.ts": {
       "memory": 1024,
       "maxDuration": 60,
-      "runtime": "nodejs18.x"
+      "runtime": "nodejs20.x"
     }
-  }
+  },
+  "rewrites": [
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/index.ts"
+    }
+  ]
 }
