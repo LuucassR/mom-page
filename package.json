@@ -30,8 +30,8 @@
     "dev": "concurrently \"npm:dev:server\" \"npm:dev:client\"",
     "dev:client": "vite",
     "dev:server": "tsx watch src/server.ts",
-    "build": "vite build",
+    "build": "tsx src/server.ts & vite build",
     "preview": "vite preview",
-    "start": "node dist/server.js"
+    "start": "tsx src/server.ts"
   }
 }
