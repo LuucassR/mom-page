@@ -27,10 +27,11 @@
   },
   "type": "module",
   "scripts": {
+    "postinstall": "prisma generate",
     "dev": "concurrently \"npm:dev:server\" \"npm:dev:client\"",
     "dev:client": "vite",
     "dev:server": "tsx watch src/server.ts",
-    "build": "tsx src/server.ts & vite build",
+    "build": "prisma generate && vite build",
     "preview": "vite preview",
     "start": "tsx src/server.ts"
   }
