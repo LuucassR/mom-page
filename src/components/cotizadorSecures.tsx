@@ -36,6 +36,7 @@ const CotizadorSeguros: React.FC = () => {
     version: "",
     tieneGNC: false,
     es0km: false,
+    tipoSeguro: "Terceros",
   });
 
   useEffect(() => {
@@ -105,24 +106,25 @@ const CotizadorSeguros: React.FC = () => {
     e.preventDefault();
 
     const dataToSubmit = {
-      ...formData,
-      // Si la marca es "OTRO", usamos la personalizada, si no, la del select
       marca:
         formData.marca === "OTRO"
           ? formData.marcaPersonalizada
           : formData.marca,
-      // Lo mismo para el modelo
       modelo:
         formData.modelo === "OTRO"
           ? formData.modeloPersonalizado
           : formData.modelo,
-      // Y para el tipo de seguro
+      anio: formData.anio,
+      version: formData.version,
+      es0km: formData.es0km,
+      tieneGNC: formData.tieneGNC,
+      tipoSeguro: formData.tipoSeguro,
     };
     try {
       await fetch("http://localhost:8080/carData", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(dataToSubmit),
         credentials: "include",
       });
     } catch (err) {
@@ -135,7 +137,7 @@ const CotizadorSeguros: React.FC = () => {
   return (
     <div className="min-h-screen bg-blue-600">
       <NavBar />
-      <div className="flex flex-col mt-20 items-center justify-center p-5">
+      <div className="flex flex-col mt-10 items-center justify-center p-5">
         <a href="/" className="text-white mb-4 text-2xl">
           {"<- home"}
         </a>
@@ -231,13 +233,20 @@ const CotizadorSeguros: React.FC = () => {
               onChange={handleChange}
               className="w-full p-4 bg-gray-100 rounded-2xl"
             />
-
-            <select name="tipoSeguro" onChange={handleChange} className="input">
-              <option value="">Tipo de seguro</option>
-              <option value="Terceros">Terceros</option>
-              <option value="Todo riesgo">Todo riesgo</option>
-              <option value="OTRO">OTRO</option>
-            </select>
+            {/* TIPO DE SEGURO */}
+            <div>
+              <label className="text-gray-700 font-medium block mb-2">Tipo de Seguro</label>
+              <select
+                name="tipoSeguro"
+                value={formData.tipoSeguro}
+                onChange={handleChange}
+                className="w-full p-4 bg-gray-100 rounded-2xl"
+              >
+                <option value="Terceros">Terceros</option>
+                <option value="Todo Riesgo">Todo Riesgo</option>
+                <option value="Terceros Ampliado">Terceros Ampliado</option>
+              </select>
+            </div>
 
             <label className="flex justify-between items-center cursor-pointer group">
               <span className="text-gray-700 font-medium">¿Es 0 km?</span>
@@ -296,6 +305,7 @@ const CotizadorSeguros: React.FC = () => {
                 ></div>
               </div>
             </label>
+
 
             <button
               type="submit"

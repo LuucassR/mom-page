@@ -29,13 +29,57 @@ app.use(session({
 
 app.get("/getCotizaciones", async (_req, res) => {
   try {
-    const data = await prisma.cotizacion.findMany({
+    const data = await prisma.user.findMany({
+      include: {
+        cotizacion: true,
+      },
     });
     res.json(data);
   } catch (error) {
-    res.status(500).json({ error: "Error al obtener datos" });
+    console.error("Error fetching cotizaciones:", error);
+    res.status(500).json({ error: "Error al obtener datos", details: String(error) });
   }
 })
+
+app.post("/admin/login", async (req: Request, res: Response) => {
+  try {
+    const { usuario, password } = req.body;
+
+    // Validar credenciales
+    if (usuario === "vanesa" && password === "Luna1508") {
+      (req.session as any).isAdmin = true;
+      req.session.save((err) => {
+        if (err) {
+          return res.status(500).json({ error: "Error al guardar la sesión" });
+        }
+        res.json({ ok: true, message: "Sesión iniciada por 24 horas" });
+      });
+    } else {
+      res.status(401).json({ error: "Credenciales incorrectas" });
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error en el login" });
+  }
+});
+
+app.get("/admin/validate-session", (req: Request, res: Response) => {
+  const isAdmin = (req.session as any).isAdmin;
+  if (isAdmin) {
+    res.json({ ok: true, isAdmin: true });
+  } else {
+    res.status(401).json({ ok: false, isAdmin: false });
+  }
+});
+
+app.post("/admin/logout", (req: Request, res: Response) => {
+  req.session.destroy((err) => {
+    if (err) {
+      return res.status(500).json({ error: "Error al cerrar sesión" });
+    }
+    res.json({ ok: true, message: "Sesión cerrada" });
+  });
+});
 
 app.post("/carData", async (req: Request, res: Response) => {
   try {
@@ -61,20 +105,20 @@ app.post("/userData", async (req, res) => {
         nombre,
         email,
         telefono,
-        Cotizacion: {
+        cotizacion: {
           create: {
             marca: carData.marca,
             modelo: carData.modelo,
             anio: carData.anio,
             version: carData.version,
-            securetype: carData.tipoSeguro,
             es0km: carData.es0km,
             tieneGNC: carData.tieneGNC,
+            tipoSeguro: carData.tipoSeguro,
           },
         },
       },
       include: {
-        Cotizacion: true,
+        cotizacion: true,
       },
     });
 
@@ -89,11 +133,49 @@ app.post("/userData", async (req, res) => {
 
 app.get("/dashboard/data", async (_req, res) => {
   const data = await prisma.user.findMany({
-    include: { Cotizacion: true },
+    include: { cotizacion: true },
   });
   console.log(data)
 
   res.json(data);
+});
+
+app.put("/cotizacion/:id/marcar-completada", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const cotizacion = await prisma.cotizacion.update({
+      where: { id: parseInt(id) },
+      data: { completada: true },
+    });
+    res.json({ ok: true, cotizacion });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error actualizando cotización" });
+  }
+});
+
+app.delete("/cotizacion/:id", async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { userId } = req.body;
+
+    // Eliminar la cotización (también eliminará en cascada)
+    await prisma.cotizacion.delete({
+      where: { id: parseInt(id) },
+    });
+
+    // Eliminar el usuario
+    if (userId) {
+      await prisma.user.delete({
+        where: { id: parseInt(userId) },
+      });
+    }
+
+    res.json({ ok: true });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error eliminando cotización y usuario" });
+  }
 });
 
 

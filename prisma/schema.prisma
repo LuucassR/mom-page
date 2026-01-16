@@ -7,24 +7,29 @@ datasource db {
   provider = "postgresql"
 }
 
-model Cotizacion {
-  id                      Int      @id @default(autoincrement())
-  marca                   String
-  modelo                  String
-  anio                    String
-  version                 String
-  es0km                   Boolean
-  tieneGNC                Boolean
-  userId                  Int      @unique
-  createdAt               DateTime @default(now())
-  User                    User     @relation(fields: [userId], references: [id])
+model User {
+  id        Int       @id @default(autoincrement())
+  nombre    String
+  email     String    @unique
+  telefono  String
+  createdAt DateTime  @default(now())
+  cotizacion cotizacion?
+
 }
 
-model User {
-  id         Int         @id @default(autoincrement())
-  nombre     String
-  email      String      @unique
-  telefono   String
-  createdAt  DateTime    @default(now())
-  Cotizacion Cotizacion?
+model cotizacion {
+  id        Int     @id @default(autoincrement())
+  marca     String
+  modelo    String
+  anio      String
+  version   String
+  es0km     Boolean @default(false)
+  tieneGNC  Boolean @default(false)
+  tipoSeguro String @default("Terceros")
+  completada Boolean @default(false)
+  userId    Int     @unique
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
 }
