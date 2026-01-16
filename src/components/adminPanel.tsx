@@ -50,7 +50,11 @@ const AdminPanel: React.FC = () => {
     }
   }, [isLoggedIn]);
 
+<<<<<<< HEAD
   const handleLogin = async (e: React.FormEvent) => {
+=======
+  const handleLogin = (e: React.FormEvent) => {
+>>>>>>> 154a4449482de0c4cf559b792e6d3e4043010b5b
     e.preventDefault();
     try {
       const response = await fetch("http://localhost:8080/admin/login", {
@@ -135,14 +139,20 @@ const AdminPanel: React.FC = () => {
           <input
             type="text"
             placeholder="Usuario"
+<<<<<<< HEAD
             value={user}
+=======
+>>>>>>> 154a4449482de0c4cf559b792e6d3e4043010b5b
             className="w-full p-3 mb-4 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
             onChange={(e) => setUser(e.target.value)}
           />
           <input
             type="password"
             placeholder="Contraseña"
+<<<<<<< HEAD
             value={pass}
+=======
+>>>>>>> 154a4449482de0c4cf559b792e6d3e4043010b5b
             className="w-full p-3 mb-6 border rounded-lg outline-none focus:ring-2 focus:ring-blue-500"
             onChange={(e) => setPass(e.target.value)}
           />
@@ -163,7 +173,11 @@ const AdminPanel: React.FC = () => {
             Panel de Cotizaciones
           </h1>
           <button
+<<<<<<< HEAD
             onClick={handleLogout}
+=======
+            onClick={() => setIsLoggedIn(false)}
+>>>>>>> 154a4449482de0c4cf559b792e6d3e4043010b5b
             className="text-red-500 font-semibold hover:underline"
           >
             Cerrar Sesión
@@ -188,7 +202,11 @@ const AdminPanel: React.FC = () => {
               <tbody className="divide-y divide-gray-200">
                 {data.length === 0 ? (
                   <tr>
+<<<<<<< HEAD
                     <td colSpan={8} className="p-8 text-center text-gray-400">
+=======
+                    <td colSpan={5} className="p-8 text-center text-gray-400">
+>>>>>>> 154a4449482de0c4cf559b792e6d3e4043010b5b
                       No hay cotizaciones registradas aún.
                     </td>
                   </tr>
@@ -196,7 +214,11 @@ const AdminPanel: React.FC = () => {
                   data.map((item) => (
                     <tr
                       key={item.id}
+<<<<<<< HEAD
                       className={`hover:bg-blue-50 transition-colors ${item.cotizacion?.completada ? 'bg-green-50' : ''}`}
+=======
+                      className="hover:bg-blue-50 transition-colors"
+>>>>>>> 154a4449482de0c4cf559b792e6d3e4043010b5b
                     >
                       {/* Fecha: Prisma usa createdAt */}
                       <td className="p-4 text-sm text-gray-500">
@@ -219,12 +241,17 @@ const AdminPanel: React.FC = () => {
                         <span className="font-bold text-gray-700">
                           {item.cotizacion?.marca || "N/A"}
                         </span>{" "}
+<<<<<<< HEAD
                         {item.cotizacion?.modelo || ""}
+=======
+                        {item.cotizacion?.modelo}
+>>>>>>> 154a4449482de0c4cf559b792e6d3e4043010b5b
                         <div className="text-xs text-gray-500">
                           {item.cotizacion?.anio} - {item.cotizacion?.version}
                         </div>
                       </td>
 
+<<<<<<< HEAD
                       {/* Tipo de Seguro */}
                       <td className="p-4">
                         <span className="px-3 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-semibold">
@@ -232,6 +259,8 @@ const AdminPanel: React.FC = () => {
                         </span>
                       </td>
 
+=======
+>>>>>>> 154a4449482de0c4cf559b792e6d3e4043010b5b
                       <td className="p-4">
                         <div className="flex gap-2">
                           {item.cotizacion?.tieneGNC && (
@@ -240,6 +269,7 @@ const AdminPanel: React.FC = () => {
                             </span>
                           )}
                           {item.cotizacion?.es0km && (
+<<<<<<< HEAD
                             <span className="px-2 py-1 bg-yellow-100 text-yellow-700 text[10px] rounded-full font-bold uppercase">
                               0km
                             </span>
@@ -279,6 +309,12 @@ const AdminPanel: React.FC = () => {
                           >
                             Eliminar
                           </button>
+=======
+                            <span className="px-2 py-1 bg-yellow-100 text-yellow-700 text-[10px] rounded-full font-bold uppercase">
+                              0km
+                            </span>
+                          )}
+>>>>>>> 154a4449482de0c4cf559b792e6d3e4043010b5b
                         </div>
                       </td>
                     </tr>

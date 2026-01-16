@@ -22,14 +22,19 @@ app.use(session({
   cookie: { 
     secure: false,      // false porque usas http (no https) en local
     httpOnly: true,     // por seguridad
+<<<<<<< HEAD
     sameSite: 'lax',     // ayuda con el manejo de CORS en navegadores modernos
     maxAge: 1000 * 60 * 60 * 24 // 24 horas
+=======
+    sameSite: 'lax'     // ayuda con el manejo de CORS en navegadores modernos
+>>>>>>> 154a4449482de0c4cf559b792e6d3e4043010b5b
   }
 }));
 
 app.get("/getCotizaciones", async (_req, res) => {
   try {
     const data = await prisma.user.findMany({
+<<<<<<< HEAD
       include: {
         cotizacion: true,
       },
@@ -81,6 +86,17 @@ app.post("/admin/logout", (req: Request, res: Response) => {
   });
 });
 
+=======
+      include: { cotizacion: true },
+      orderBy: { createdAt: 'desc' } // Opcional: ver las más nuevas primero
+    });
+    res.json(data);
+  } catch (error) {
+    res.status(500).json({ error: "Error al obtener datos" });
+  }
+})
+
+>>>>>>> 154a4449482de0c4cf559b792e6d3e4043010b5b
 app.post("/carData", async (req: Request, res: Response) => {
   try {
     req.session.carData = req.body;

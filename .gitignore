@@ -31,5 +31,8 @@ dist-ssr
 /generated/prisma
 
 /generated/prisma
+<<<<<<< HEAD
 
 /generated/prisma
+=======
+>>>>>>> 154a4449482de0c4cf559b792e6d3e4043010b5b

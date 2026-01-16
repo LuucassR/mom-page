@@ -124,7 +124,11 @@ const CotizadorSeguros: React.FC = () => {
       await fetch("http://localhost:8080/carData", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+<<<<<<< HEAD
         body: JSON.stringify(dataToSubmit),
+=======
+        body: JSON.stringify(formData),
+>>>>>>> 154a4449482de0c4cf559b792e6d3e4043010b5b
         credentials: "include",
       });
     } catch (err) {
@@ -137,7 +141,11 @@ const CotizadorSeguros: React.FC = () => {
   return (
     <div className="min-h-screen bg-blue-600">
       <NavBar />
+<<<<<<< HEAD
       <div className="flex flex-col mt-10 items-center justify-center p-5">
+=======
+      <div className="flex flex-col mt-20 items-center justify-center p-5">
+>>>>>>> 154a4449482de0c4cf559b792e6d3e4043010b5b
         <a href="/" className="text-white mb-4 text-2xl">
           {"<- home"}
         </a>
@@ -306,6 +314,66 @@ const CotizadorSeguros: React.FC = () => {
               </div>
             </label>
 
+<<<<<<< HEAD
+=======
+            <label className="flex justify-between items-center cursor-pointer group">
+              <span className="text-gray-700 font-medium">¿Es 0 km?</span>
+
+              {/* Contenedor del Switch */}
+              <div className="relative">
+                <input
+                  type="checkbox"
+                  name="es0km"
+                  className="sr-only peer" // "sr-only" lo oculta visualmente pero lo deja accesible
+                  checked={formData.es0km}
+                  onChange={handleChange}
+                />
+
+                {/* El riel (fondo) */}
+                <div
+                  className="w-11 h-6 bg-gray-200 rounded-full peer 
+                    peer-focus:ring-2 peer-focus:ring-blue-300 
+                    peer-checked:bg-blue-600 transition-colors duration-300"
+                ></div>
+
+                {/* El círculo (bolita) */}
+                <div
+                  className="absolute top-0.5 left-0.5 bg-white border-gray-300 
+                    border rounded-full h-5 w-5 transition-all duration-300
+                    peer-checked:translate-x-full peer-checked:border-white"
+                ></div>
+              </div>
+            </label>
+
+            <label className="flex justify-between items-center cursor-pointer group">
+              <span className="text-gray-700 font-medium">¿Tiene GNC?</span>
+
+              {/* Contenedor del Switch */}
+              <div className="relative">
+                <input
+                  type="checkbox"
+                  name="tieneGNC"
+                  className="sr-only peer" // "sr-only" lo oculta visualmente pero lo deja accesible
+                  checked={formData.tieneGNC}
+                  onChange={handleChange}
+                />
+
+                {/* El riel (fondo) */}
+                <div
+                  className="w-11 h-6 bg-gray-200 rounded-full peer 
+                    peer-focus:ring-2 peer-focus:ring-blue-300 
+                    peer-checked:bg-blue-600 transition-colors duration-300"
+                ></div>
+
+                {/* El círculo (bolita) */}
+                <div
+                  className="absolute top-0.5 left-0.5 bg-white border-gray-300 
+                    border rounded-full h-5 w-5 transition-all duration-300
+                    peer-checked:translate-x-full peer-checked:border-white"
+                ></div>
+              </div>
+            </label>
+>>>>>>> 154a4449482de0c4cf559b792e6d3e4043010b5b
 
             <button
               type="submit"
