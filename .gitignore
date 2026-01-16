@@ -12,6 +12,12 @@ dist
 dist-ssr
 *.local
 
+# Compiled TypeScript files
+*.js
+*.js.map
+*.d.ts
+*.d.ts.map
+
 # Environment variables
 .env
 .env.local
