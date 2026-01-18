@@ -1,47 +1,51 @@
-import express from "express"
-import cors from "cors"
-import type { Request, Response } from "express"
-import session from 'express-session';
+import express from "express";
+import cors from "cors";
+import type { Request, Response } from "express";
+import session from "express-session";
 import { prisma } from "./lib/prisma.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
-const app = express()
+const app = express();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
 const allowedOrigins = [
-  "http://localhost:5173", 
-  "https://tu-app.railway.app" // Agrega tu URL de Railway cuando la tengas
+  "http://localhost:5173",
+  "https://tu-app.railway.app", // Agrega tu URL de Railway cuando la tengas
 ];
 
-app.use(cors({
-  origin: (origin, callback) => {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true
-}));;
+app.use(
+  cors({
+    origin: (origin, callback) => {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error("Not allowed by CORS"));
+      }
+    },
+    credentials: true,
+  }),
+);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-app.use(session({
-  secret: process.env.SESSION_SECRET || 'mi_secreto_para_el_dashboard',
-  resave: false,
-  saveUninitialized: false,
-  name: 'mipagina.sid',
-  cookie: { 
-    secure: process.env.NODE_ENV === 'production', // True en producción para HTTPS
-    httpOnly: true,
-    sameSite: 'lax',
-    maxAge: 1000 * 60 * 60 * 24 
-  }
-}));
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "mi_secreto_para_el_dashboard",
+    resave: false,
+    saveUninitialized: false,
+    name: "mipagina.sid",
+    cookie: {
+      secure: process.env.NODE_ENV === "production", // True en producción para HTTPS
+      httpOnly: true,
+      sameSite: "lax",
+      maxAge: 1000 * 60 * 60 * 24,
+    },
+  }),
+);
 
 app.get("/getCotizaciones", async (_req, res) => {
   try {
@@ -53,9 +57,11 @@ app.get("/getCotizaciones", async (_req, res) => {
     res.json(data);
   } catch (error) {
     console.error("Error fetching cotizaciones:", error);
-    res.status(500).json({ error: "Error al obtener datos", details: String(error) });
+    res
+      .status(500)
+      .json({ error: "Error al obtener datos", details: String(error) });
   }
-})
+});
 
 app.post("/admin/login", async (req: Request, res: Response) => {
   try {
@@ -103,7 +109,7 @@ app.post("/carData", async (req: Request, res: Response) => {
     res.json({ ok: true });
   } catch (err) {
     res.status(500).json({ error: "Error guardando vehículo" });
-    return console.error(err)
+    return console.error(err);
   }
 });
 
@@ -151,7 +157,7 @@ app.get("/dashboard/data", async (_req, res) => {
   const data = await prisma.user.findMany({
     include: { cotizacion: true },
   });
-  console.log(data)
+  console.log(data);
 
   res.json(data);
 });
@@ -195,15 +201,16 @@ app.delete("/cotizacion/:id", async (req, res) => {
 });
 
 if (process.env.NODE_ENV === "production") {
-  // En producción, el servidor Express entrega la carpeta 'dist' que crea Vite
-  const distPath = path.join(__dirname, "../dist"); 
-  app.use(express.static(distPath));
+  // Como el log dice que corres desde dist/src/server.js,
+  // subimos dos niveles para llegar a la raíz de la carpeta dist
+  const clientDistPath = path.resolve(__dirname, "../../");
 
-  // Cualquier ruta que no sea de la API, devuelve el index.html (React Router)
-  app.get("*", (req, res) => {
-    if (!req.path.startsWith('/admin') && !req.path.startsWith('/api')) {
-       res.sendFile(path.join(distPath, "index.html"));
-    }
+  // Servir archivos estáticos
+  app.use(express.static(clientDistPath));
+
+  // LA SOLUCIÓN AL ERROR: Cambiamos '*' por '(.*)' o un parámetro nombrado
+  app.get("/(.*)", (req, res) => {
+    res.sendFile(path.join(clientDistPath, "index.html"));
   });
 }
 
