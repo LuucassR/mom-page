@@ -201,21 +201,19 @@ app.delete("/cotizacion/:id", async (req, res) => {
 });
 
 if (process.env.NODE_ENV === "production") {
-  // Como el log dice que corres desde dist/src/server.js,
-  // subimos dos niveles para llegar a la raíz de la carpeta dist
+  // Ajustamos la ruta para llegar a la raíz de 'dist' desde 'dist/src/'
   const clientDistPath = path.resolve(__dirname, "../../");
-
+  
   // Servir archivos estáticos
   app.use(express.static(clientDistPath));
 
-  // LA SOLUCIÓN AL ERROR: Cambiamos '*' por '(.*)' o un parámetro nombrado
-  app.get("/(.*)", (req, res) => {
+  // SINTAXIS PARA EXPRESS 5: Usamos (.*) para capturar todas las rutas
+  app.get("(.*)", (req, res) => {
     res.sendFile(path.join(clientDistPath, "index.html"));
   });
 }
 
-const PORT = parseInt(process.env.PORT || "8080", 10); // Railway usará process.env.PORT
-
+const PORT = parseInt(process.env.PORT || "8080", 10);
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`🚀 Servidor activo en puerto ${PORT}`);
 });
