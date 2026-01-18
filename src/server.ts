@@ -11,9 +11,17 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+const clientDistPath = path.join(process.cwd(), 'dist');
+
+app.use(express.static(clientDistPath));
+
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://mom-page-production.up.railway.app/", // Agrega tu URL de Railway cuando la tengas
+  "https://mom-page-production.up.railway.app", // Agrega tu URL de Railway cuando la tengas
 ];
 
 app.use(
@@ -29,9 +37,6 @@ app.use(
   }),
 );
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
 app.use(
   session({
     secret: process.env.SESSION_SECRET || "mi_secreto_para_el_dashboard",
@@ -39,7 +44,7 @@ app.use(
     saveUninitialized: false,
     name: "mipagina.sid",
     cookie: {
-      secure: process.env.NODE_ENV === "production", // True en producción para HTTPS
+      secure: process.env.NODE_ENV === "production",
       httpOnly: true,
       sameSite: "lax",
       maxAge: 1000 * 60 * 60 * 24,
@@ -201,18 +206,7 @@ app.delete("/cotizacion/:id", async (req, res) => {
 });
 
 if (process.env.NODE_ENV === "production") {
-  // 1. Definimos la ruta absoluta a la carpeta 'dist' generada por Vite
-  // Como el servidor corre en /app, la carpeta dist está en /app/dist
-  const clientDistPath = path.join(process.cwd(), 'dist');
-  
-  console.log(`📂 Ruta base del servidor: ${process.cwd()}`);
-  console.log(`📂 Buscando frontend en: ${clientDistPath}`);
-
-  // 2. Servir archivos estáticos (CSS, JS, Imágenes)
-  app.use(express.static(clientDistPath));
-
-  // 3. Captura todas las rutas (Regex nativo para evitar error de Express 5)
-  app.get(/.*/, (req, res) => {
+  app.get(/.*/, (req: Request, res: Response) => {
     res.sendFile(path.join(clientDistPath, "index.html"));
   });
 }
