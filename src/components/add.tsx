@@ -14,7 +14,7 @@ interface AdProps {
 
 export default function Add({ type, image }: AdProps) {
   return (
-    <div className="w-full bg-gradient-to-br from-[#151747] to-[#2a2e85] rounded-3xl shadow-2xl overflow-hidden relative border border-white/10">
+    <div className="w-full bg-linear-to-br from-[#151747] to-[#2a2e85] rounded-3xl shadow-2xl overflow-hidden relative border border-white/10">
       <div className="flex flex-col md:flex-row items-center justify-between p-8 md:p-12 gap-8">
         
         {/* Lado Izquierdo: Texto y Botón */}
