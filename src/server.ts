@@ -3,27 +3,43 @@ import cors from "cors"
 import type { Request, Response } from "express"
 import session from 'express-session';
 import { prisma } from "../lib/prisma";
+import path from "path";
+import { fileURLToPath } from "url";
 
 const app = express()
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+const allowedOrigins = [
+  "http://localhost:5173", 
+  "https://tu-app.railway.app" // Agrega tu URL de Railway cuando la tengas
+];
+
 app.use(cors({
-  origin: "http://localhost:5173",
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
   credentials: true
-}));
+}));;
 
-app.use(express.json())
-
+app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
 app.use(session({
-  secret: 'mi_secreto_para_el_dashboard',
+  secret: process.env.SESSION_SECRET || 'mi_secreto_para_el_dashboard',
   resave: false,
   saveUninitialized: false,
-  name: 'mipagina.sid', // Nombre personalizado para la cookie
+  name: 'mipagina.sid',
   cookie: { 
-    secure: false,      // false porque usas http (no https) en local
-    httpOnly: true,     // por seguridad
-    sameSite: 'lax',     // ayuda con el manejo de CORS en navegadores modernos
-    maxAge: 1000 * 60 * 60 * 24 // 24 horas
+    secure: process.env.NODE_ENV === 'production', // True en producción para HTTPS
+    httpOnly: true,
+    sameSite: 'lax',
+    maxAge: 1000 * 60 * 60 * 24 
   }
 }));
 
@@ -178,7 +194,21 @@ app.delete("/cotizacion/:id", async (req, res) => {
   }
 });
 
+if (process.env.NODE_ENV === "production") {
+  // En producción, el servidor Express entrega la carpeta 'dist' que crea Vite
+  const distPath = path.join(__dirname, "../dist"); 
+  app.use(express.static(distPath));
 
-app.listen(8080, () => {
-  console.log("🚀 Backend escuchando en http://localhost:8080")
-})
+  // Cualquier ruta que no sea de la API, devuelve el index.html (React Router)
+  app.get("*", (req, res) => {
+    if (!req.path.startsWith('/admin') && !req.path.startsWith('/api')) {
+       res.sendFile(path.join(distPath, "index.html"));
+    }
+  });
+}
+
+
+const PORT = process.env.PORT || 8080;
+app.listen(PORT, () => {
+  console.log(`🚀 Servidor corriendo en puerto ${PORT}`);
+});
