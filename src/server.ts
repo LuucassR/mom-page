@@ -201,14 +201,16 @@ app.delete("/cotizacion/:id", async (req, res) => {
 });
 
 if (process.env.NODE_ENV === "production") {
-  // Ajustamos la ruta para llegar a la raíz de 'dist' desde 'dist/src/'
-  const clientDistPath = path.resolve(__dirname, "../../");
+  // Usamos process.cwd() para buscar la carpeta 'dist' desde la raíz del proyecto.
+  // Esto es más seguro que usar __dirname con ../../
+  const clientDistPath = path.join(process.cwd(), 'dist');
   
-  // Servir archivos estáticos
   app.use(express.static(clientDistPath));
 
-  // SINTAXIS PARA EXPRESS 5: Usamos (.*) para capturar todas las rutas
-  app.get("(.*)", (req, res) => {
+  // SOLUCIÓN DEFINITIVA AL ERROR DE PATH:
+  // En lugar de comillas "...", usamos una Regex /.*/ (sin comillas)
+  // Esto le dice a Express: "Coincide con cualquier cosa" sin pasar por el parser de texto.
+  app.get(/.*/, (req, res) => {
     res.sendFile(path.join(clientDistPath, "index.html"));
   });
 }
