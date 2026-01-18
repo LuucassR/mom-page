@@ -201,15 +201,17 @@ app.delete("/cotizacion/:id", async (req, res) => {
 });
 
 if (process.env.NODE_ENV === "production") {
-  // Usamos process.cwd() para buscar la carpeta 'dist' desde la raíz del proyecto.
-  // Esto es más seguro que usar __dirname con ../../
+  // 1. Definimos la ruta absoluta a la carpeta 'dist' generada por Vite
+  // Como el servidor corre en /app, la carpeta dist está en /app/dist
   const clientDistPath = path.join(process.cwd(), 'dist');
   
+  console.log(`📂 Ruta base del servidor: ${process.cwd()}`);
+  console.log(`📂 Buscando frontend en: ${clientDistPath}`);
+
+  // 2. Servir archivos estáticos (CSS, JS, Imágenes)
   app.use(express.static(clientDistPath));
 
-  // SOLUCIÓN DEFINITIVA AL ERROR DE PATH:
-  // En lugar de comillas "...", usamos una Regex /.*/ (sin comillas)
-  // Esto le dice a Express: "Coincide con cualquier cosa" sin pasar por el parser de texto.
+  // 3. Captura todas las rutas (Regex nativo para evitar error de Express 5)
   app.get(/.*/, (req, res) => {
     res.sendFile(path.join(clientDistPath, "index.html"));
   });
