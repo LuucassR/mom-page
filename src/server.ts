@@ -2,7 +2,7 @@ import express from "express"
 import cors from "cors"
 import type { Request, Response } from "express"
 import session from 'express-session';
-import { prisma } from "../lib/prisma";
+import { prisma } from "./lib/prisma.js";
 import path from "path";
 import { fileURLToPath } from "url";
 
