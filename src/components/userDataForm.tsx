@@ -17,7 +17,7 @@ const UserDataForm: React.FC = () => {
     };
 
     try {
-      const response = await fetch("/userData", {
+      const response = await fetch("https://mom-page-production.up.railway.app/userData", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

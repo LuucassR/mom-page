@@ -21,7 +21,7 @@ const Contact = () => {
     }
 
     try {
-      const res = await fetch("/contact", {
+      const res = await fetch("https://mom-page-production.up.railway.app/contact", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

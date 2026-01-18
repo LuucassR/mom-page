@@ -10,7 +10,7 @@ const AdminPanel: React.FC = () => {
 
   const fetchCotizaciones = async () => {
     try {
-      const response = await fetch("/getCotizaciones", {
+      const response = await fetch("https://mom-page-production.up.railway.app/getCotizaciones", {
         credentials: "include",
       });
       const result = await response.json();
@@ -25,7 +25,7 @@ const AdminPanel: React.FC = () => {
   useEffect(() => {
     const validateSession = async () => {
       try {
-        const response = await fetch("/admin/validate-session", {
+        const response = await fetch("https://mom-page-production.up.railway.app/admin/validate-session", {
           credentials: "include",
         });
         if (response.ok) {
@@ -53,7 +53,7 @@ const AdminPanel: React.FC = () => {
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const response = await fetch("/admin/login", {
+      const response = await fetch("https://mom-page-production.up.railway.app/admin/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ usuario: user, password: pass }),
@@ -75,7 +75,7 @@ const AdminPanel: React.FC = () => {
 
   const handleLogout = async () => {
     try {
-      await fetch("/admin/logout", {
+      await fetch("https://mom-page-production.up.railway.app/admin/logout", {
         method: "POST",
         credentials: "include",
       });
@@ -87,7 +87,7 @@ const AdminPanel: React.FC = () => {
 
   const handleMarcarCompletada = async (cotizacionId: number) => {
     try {
-      await fetch(`/cotizacion/${cotizacionId}/marcar-completada`, {
+      await fetch(`https://mom-page-production.up.railway.app/cotizacion/${cotizacionId}/marcar-completada`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         credentials: "include",
@@ -101,7 +101,7 @@ const AdminPanel: React.FC = () => {
   const handleEliminar = async (cotizacionId: number, userId: number) => {
     if (window.confirm("¿Está seguro que desea eliminar esta cotización y el usuario?")) {
       try {
-        await fetch(`/cotizacion/${cotizacionId}`, {
+        await fetch(`https://mom-page-production.up.railway.app/cotizacion/${cotizacionId}`, {
           method: "DELETE",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ userId }),

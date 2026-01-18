@@ -6,7 +6,7 @@ export default function Test() {
 
 
   async function getData() {
-    await fetch("/getCotizaciones")
+    await fetch("https://mom-page-production.up.railway.app/getCotizaciones")
       .then((response) => response.json())
       .then((data) => setData(data));
     console.log(data)

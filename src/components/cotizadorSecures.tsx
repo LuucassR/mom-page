@@ -121,7 +121,7 @@ const CotizadorSeguros: React.FC = () => {
       tipoSeguro: formData.tipoSeguro,
     };
     try {
-      await fetch("/carData", {
+      await fetch("https://mom-page-production.up.railway.app/carData", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dataToSubmit),
