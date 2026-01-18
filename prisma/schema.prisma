@@ -8,28 +8,26 @@ datasource db {
 }
 
 model User {
-  id        Int       @id @default(autoincrement())
-  nombre    String
-  email     String    @unique
-  telefono  String
-  createdAt DateTime  @default(now())
+  id         Int         @id @default(autoincrement())
+  nombre     String
+  email      String      @unique
+  telefono   String
+  createdAt  DateTime    @default(now())
   cotizacion cotizacion?
-
 }
 
 model cotizacion {
-  id        Int     @id @default(autoincrement())
-  marca     String
-  modelo    String
-  anio      String
-  version   String
-  es0km     Boolean @default(false)
-  tieneGNC  Boolean @default(false)
-  tipoSeguro String @default("Terceros")
-  completada Boolean @default(false)
-  userId    Int     @unique
-  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now()) @updatedAt
-
+  id         Int      @id @default(autoincrement())
+  marca      String
+  modelo     String
+  anio       String
+  version    String
+  es0km      Boolean  @default(false)
+  tieneGNC   Boolean  @default(false)
+  userId     Int      @unique
+  completada Boolean  @default(false)
+  createdAt  DateTime @default(now())
+  tipoSeguro String   @default("Terceros")
+  updatedAt  DateTime @default(now()) @updatedAt
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
