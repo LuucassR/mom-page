@@ -5,6 +5,14 @@ import session from "express-session";
 import { prisma } from "./lib/prisma.js";
 import path from "path";
 import { fileURLToPath } from "url";
+import pgSession from "connect-pg-simple";
+import pg from "pg";
+
+const PgSession = pgSession(session);
+
+const pool = new pg.Pool({
+  connectionString: process.env.DATABASE_URL,
+});
 
 const app = express();
 
@@ -39,7 +47,11 @@ app.use(
 
 app.use(
   session({
-    secret: process.env.SESSION_SECRET || "mi_secreto_para_el_dashboard",
+    store: new PgSession({
+      pool,
+      tableName: "session",
+    }),
+    secret: process.env.SESSION_SECRET!,
     resave: false,
     saveUninitialized: false,
     name: "mipagina.sid",
@@ -49,7 +61,7 @@ app.use(
       sameSite: "lax",
       maxAge: 1000 * 60 * 60 * 24,
     },
-  }),
+  })
 );
 
 app.get("/getCotizaciones", async (_req, res) => {
