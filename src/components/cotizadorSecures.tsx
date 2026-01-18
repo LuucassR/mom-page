@@ -58,7 +58,7 @@ const CotizadorSeguros: React.FC = () => {
       setLists((prev) => ({
         ...prev,
         marcas: data.Results.filter((m: Marca) =>
-          populares.includes(m.Make_Name.toUpperCase())
+          populares.includes(m.Make_Name.toUpperCase()),
         ),
       }));
     };
@@ -81,7 +81,7 @@ const CotizadorSeguros: React.FC = () => {
     const fetchModelos = async () => {
       setLoading(true);
       const res = await fetch(
-        `${API_BASE}/GetModelsForMake/${formData.marca}?format=json`
+        `${API_BASE}/GetModelsForMake/${formData.marca}?format=json`,
       );
       const data = await res.json();
       setLists((prev) => ({ ...prev, modelos: data.Results }));
@@ -92,7 +92,7 @@ const CotizadorSeguros: React.FC = () => {
   }, [formData.marca]);
 
   const handleChange = (
-    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    e: ChangeEvent<HTMLInputElement | HTMLSelectElement>,
   ) => {
     const { name, value, type, checked } = e.target as HTMLInputElement;
 
@@ -120,17 +120,27 @@ const CotizadorSeguros: React.FC = () => {
       tieneGNC: formData.tieneGNC,
       tipoSeguro: formData.tipoSeguro,
     };
+
     try {
-      await fetch("/carData", {
+      const response = await fetch("/carData", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dataToSubmit),
         credentials: "include",
       });
-    } catch (err) {
-      console.log(err);
-    } finally {
+
+      if (!response.ok) {
+        const text = await response.text();
+        console.error("Error /carData:", text);
+        alert("Error enviando los datos del vehículo");
+        return; // 🚨 NO navegar
+      }
+
+      // ✅ SOLO si se guardó bien
       navigate("/user");
+    } catch (err) {
+      console.error("Fetch error:", err);
+      alert("Error de red");
     }
   };
 
@@ -235,7 +245,9 @@ const CotizadorSeguros: React.FC = () => {
             />
             {/* TIPO DE SEGURO */}
             <div>
-              <label className="text-gray-700 font-medium block mb-2">Tipo de Seguro</label>
+              <label className="text-gray-700 font-medium block mb-2">
+                Tipo de Seguro
+              </label>
               <select
                 name="tipoSeguro"
                 value={formData.tipoSeguro}
@@ -306,11 +318,9 @@ const CotizadorSeguros: React.FC = () => {
               </div>
             </label>
 
-
             <button
               type="submit"
               disabled={
-                !formData.version ||
                 (formData.marca === "OTRO" && !formData.marcaPersonalizada)
               }
               className="w-full cursor-pointer active:scale-95 bg-blue-600 text-white py-4 rounded-full font-bold hover:bg-blue-700 disabled:bg-gray-300 transition-all"

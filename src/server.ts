@@ -19,10 +19,9 @@ const app = express();
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-const clientDistPath = path.join(process.cwd(), 'dist');
+const clientDistPath = path.join(process.cwd(), "dist");
 
 app.use(express.static(clientDistPath));
-
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -61,7 +60,7 @@ app.use(
       sameSite: "lax",
       maxAge: 1000 * 60 * 60 * 24,
     },
-  })
+  }),
 );
 
 app.get("/getCotizaciones", async (_req, res) => {
@@ -122,6 +121,8 @@ app.post("/admin/logout", (req: Request, res: Response) => {
 
 app.post("/carData", async (req: Request, res: Response) => {
   try {
+    console.log("🚗 carData recibido:", req.body);
+    console.log("🧠 sessionID:", req.sessionID);
     req.session.carData = req.body;
     res.json({ ok: true });
   } catch (err) {
