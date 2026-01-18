@@ -13,7 +13,7 @@ const __dirname = path.dirname(__filename);
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://tu-app.railway.app", // Agrega tu URL de Railway cuando la tengas
+  "https://mom-page-production.up.railway.app/", // Agrega tu URL de Railway cuando la tengas
 ];
 
 app.use(
