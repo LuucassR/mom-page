@@ -1,43 +1,71 @@
-import "./components.css"
-
+import "./components.css";
 
 interface AdProps {
   type: string;
   image: string;
 }
 
-export default function Add({type, image}: AdProps) {
-  return (
-    <div className="flex flex-col justify-self-center max-w-6/7 items-center border mt-10 rounded-2xl">
-      <div className="bg-linear-to-tr from-sky-600 to-indigo-800 p-5 rounded-t-2xl">
-        <div className="flex"> 
-          <p className="text-white text-xl">
-            Asegurá tu <strong>tranquilidad</strong>, conduci seguro
-          </p>
-          <img src={image} alt="" className="size-1/2" />
-        </div>
-        <p className="text-white text-lg">
-          Cotizá tu seguro de {type} ahora <strong>con un asesor</strong>
-        </p>
-      </div>
+import "./components.css"
 
-      <div className="flex justify-center bg-white w-full rounded-b-2xl p-4">
-        <a  href="https://wa.me/3424483534" className="bg-[#58B671] flex text-xl gap-2 p-1 items-center justify-center text-white w-full rounded-4xl">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="20"
-            height="20"
-            viewBox="0 0 20 20"
-            fill="none"
-          >
-            <path
-              d="M10 0C15.523 0 20 4.477 20 10C20 15.523 15.523 20 10 20C8.29797 20.0024 6.62372 19.5686 5.13701 18.74L4.83201 18.562L1.80001 19.454C1.63501 19.5026 1.46033 19.5083 1.29252 19.4705C1.12472 19.4327 0.969349 19.3526 0.841145 19.2379C0.712941 19.1233 0.616151 18.9777 0.559951 18.8152C0.50375 18.6526 0.490002 18.4784 0.520008 18.309L0.546008 18.2L1.43801 15.168C0.495061 13.6093 -0.00231244 11.8218 8.08284e-06 10C8.08284e-06 4.477 4.47701 0 10 0ZM10 2C8.56763 1.99974 7.16146 2.38406 5.92834 3.11281C4.69521 3.84157 3.68036 4.88804 2.98977 6.14294C2.29918 7.39784 1.95817 8.81513 2.00237 10.2468C2.04656 11.6785 2.47433 13.0721 3.24101 14.282C3.43901 14.594 3.52401 14.978 3.45701 15.359L3.41801 15.522L2.97701 17.023L4.47801 16.582C4.91101 16.454 5.36101 16.532 5.71801 16.759C6.76633 17.4228 7.95469 17.8336 9.18915 17.959C10.4236 18.0844 11.6703 17.921 12.8307 17.4816C13.9911 17.0422 15.0334 16.3389 15.8752 15.4273C16.717 14.5157 17.3351 13.4208 17.6809 12.2291C18.0266 11.0374 18.0904 9.78167 17.8672 8.5611C17.6441 7.34053 17.14 6.1886 16.395 5.19637C15.6499 4.20415 14.6843 3.39883 13.5744 2.84408C12.4645 2.28933 11.2408 2.00035 10 2ZM7.10201 5.184C7.21283 5.13654 7.33402 5.11851 7.45386 5.13165C7.57369 5.14479 7.6881 5.18866 7.78601 5.259C8.29001 5.627 8.69001 6.121 9.03401 6.603L9.361 7.077L9.514 7.302C9.60261 7.43095 9.64613 7.58557 9.63782 7.74181C9.6295 7.89806 9.5698 8.04718 9.468 8.166L9.393 8.242L8.469 8.928C8.42504 8.9606 8.39414 9.00781 8.38186 9.06114C8.36958 9.11448 8.37672 9.17045 8.40201 9.219C8.61201 9.599 8.983 10.166 9.409 10.592C9.836 11.018 10.429 11.414 10.835 11.647C10.923 11.697 11.029 11.681 11.101 11.616L11.139 11.571L11.74 10.656C11.8502 10.5088 12.0131 10.4101 12.1946 10.3806C12.3761 10.3512 12.5619 10.3932 12.713 10.498L13.256 10.877C13.796 11.262 14.315 11.676 14.726 12.201C14.802 12.2997 14.8504 12.4168 14.866 12.5404C14.8817 12.664 14.8641 12.7895 14.815 12.904C14.419 13.828 13.416 14.615 12.374 14.577L12.215 14.567L12.024 14.549L11.916 14.535L11.678 14.495C10.754 14.321 9.273 13.797 7.73801 12.263C6.20401 10.728 5.68001 9.247 5.50601 8.323L5.46601 8.085L5.44101 7.877L5.42801 7.702L5.42401 7.627C5.38601 6.583 6.17701 5.58 7.10201 5.184Z"
-              fill="white"
+interface AdProps {
+  type: string;
+  image: string;
+}
+
+export default function Add({ type, image }: AdProps) {
+  return (
+    <div className="w-full bg-gradient-to-br from-[#151747] to-[#2a2e85] rounded-3xl shadow-2xl overflow-hidden relative border border-white/10">
+      <div className="flex flex-col md:flex-row items-center justify-between p-8 md:p-12 gap-8">
+        
+        {/* Lado Izquierdo: Texto y Botón */}
+        <div className="flex-1 text-center md:text-left z-10 space-y-6">
+          <div>
+            <h2 className="text-white text-3xl md:text-5xl font-extrabold leading-tight">
+              Tu <span className="text-sky-400">tranquilidad</span>,<br /> nuestra prioridad.
+            </h2>
+            <p className="text-blue-100 text-lg md:text-xl mt-4 opacity-90">
+              Cotizá tu seguro de <span className="font-bold text-white underline decoration-sky-400 decoration-2 transition-all">{type}</span> con un asesor experto.
+            </p>
+          </div>
+
+          <div className="flex justify-center md:justify-start">
+            <a 
+              href="https://wa.me/3424483534" 
+              target="_blank" 
+              rel="noreferrer"
+              className="group bg-[#25D366] hover:bg-[#20ba5a] text-white px-8 py-4 rounded-2xl font-bold text-lg flex items-center gap-3 transition-all shadow-lg hover:shadow-green-500/40 hover:-translate-y-1 active:scale-95"
+            >
+              <WhatsAppIcon />
+              <span>Consultar por WhatsApp</span>
+            </a>
+          </div>
+        </div>
+
+        {/* Lado Derecho: Imagen con efecto */}
+        <div className="flex-1 flex justify-center items-center z-10">
+          <div className="relative">
+            {/* Brillo de fondo para la imagen */}
+            <div className="absolute inset-0 bg-sky-500/20 blur-3xl rounded-full"></div>
+            <img 
+              src={image} 
+              alt={type} 
+              className="w-48 md:w-72 lg:w-80 object-contain drop-shadow-[0_20px_30px_rgba(0,0,0,0.3)] transform group-hover:rotate-2 transition-transform duration-500" 
             />
-          </svg>
-          Whatsapp
-        </a>
+          </div>
+        </div>
+
+        {/* Decoración abstracta de fondo */}
+        <div className="absolute -bottom-10 -right-10 w-64 h-64 bg-white/5 rounded-full blur-3xl"></div>
       </div>
     </div>
+  );
+}
+
+// Icono de WhatsApp pequeño para reusar
+function WhatsAppIcon() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766 0-3.18-2.587-5.771-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.538-2.961-2.654-.087-.116-.708-.941-.708-1.794 0-.853.448-1.273.607-1.446.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298L10.75 10.2c.043.101.072.217.006.347-.067.13-.1.21-.199.324l-.15.15c-.08.077-.164.162-.07.326.094.164.415.686.891 1.111.612.547 1.127.718 1.286.797.159.08.253.066.347-.043.094-.11.405-.47.513-.63.108-.159.217-.13.361-.077.144.053.911.43 1.067.509.156.08.259.12.296.183.037.062.037.359-.108.764zM12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10S2 17.523 2 12 6.477 2 12 2zm0 1.8a8.2 8.2 0 1 0 0 16.4 8.2 8.2 0 0 0 0-16.4z"/>
+    </svg>
   );
 }

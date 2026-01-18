@@ -63,21 +63,25 @@ function SecureCard({ type, image }: { type: string; image: string }) {
 
 export default function Secure({ onSelect }: SecureProps) {
   return (
-    <div>
-      <h2 className="text-center mb-10 text-3xl mt-10">
-        ¿Qué seguros tenemos?
+    <div className="mt-10">
+      <h2 className="text-center mb-10 text-3xl font-bold text-slate-800">
+        ¿Qué seguros tenemos para vos?
       </h2>
 
-      <div className="grid bg-[#e3e3e3] p-5  gap-5 grid-cols-2">
+      {/* Grid responsivo: 2 col en movil, 3 en tablet, 4 en desktop */}
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
         {SECURES.map((secure) => (
           <button
             key={secure.type}
             onClick={() => onSelect(secure.type, secure.image!)}
+            className="group transition-transform hover:-translate-y-2"
           >
-            <SecureCard
-              type={secure.type}
-              image={secure.image}
-            />
+            <div className="bg-white p-6 rounded-2xl shadow-sm group-hover:shadow-xl group-hover:bg-blue-600 transition-all duration-300 border border-slate-200">
+              <img src={secure.image} alt={secure.type} className="h-20 mx-auto mb-4 object-contain" />
+              <p className="text-center font-bold text-slate-700 group-hover:text-white">
+                Seguro de {secure.type}
+              </p>
+            </div>
           </button>
         ))}
       </div>

@@ -1,27 +1,34 @@
 import { useNavigate } from "react-router";
-import "./components.css"
 
-export default function Client() {
-  const navigate = useNavigate()
+export default function Client({ selectedType }: { selectedType: string }) {
+  const navigate = useNavigate();
+  const isAuto = selectedType === "Auto";
+
   return (
-    <div className="bg-white flex items-end gap-4 justify-center absolute w-full p-5 shadow-2xl shadow-black">
-      <button onClick={() => navigate("/cotizacion")}>
-        <svg
-        className="justify-self-center"
-          xmlns="http://www.w3.org/2000/svg"
-          width="28"
-          height="25"
-          viewBox="0 0 28 25"
-          fill="none"
+    <div className="fixed bottom-0 left-0 w-full bg-white/95 backdrop-blur-sm border-t border-slate-200 p-4 z-50 shadow-[0_-8px_30px_rgb(0,0,0,0.12)]">
+      <div className="max-w-5xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+        
+        <div className="text-center md:text-left">
+          <p className="text-slate-500 text-xs uppercase tracking-widest font-bold">Estado del trámite</p>
+          <p className="text-slate-800 font-medium">
+            {isAuto 
+              ? "✅ Sistema de cotización online listo" 
+              : `⏳ Cotización de ${selectedType} vía asesor (WhatsApp)`}
+          </p>
+        </div>
+
+        <button
+          onClick={() => isAuto && navigate("/cotizacion")}
+          disabled={!isAuto}
+          className={`w-full md:w-auto px-10 py-3 rounded-xl font-bold transition-all duration-300 ${
+            isAuto 
+              ? "bg-[#151747] text-white hover:bg-blue-900 shadow-lg shadow-blue-900/20 active:scale-95" 
+              : "bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200"
+          }`}
         >
-          <path
-            className="fill-black"
-            d="M12.6667 24.5V21.8333H23.3333V12.3667C23.3333 9.76667 22.4278 7.56111 20.6167 5.75C18.8056 3.93889 16.6 3.03333 14 3.03333C11.4 3.03333 9.19444 3.93889 7.38333 5.75C5.57222 7.56111 4.66666 9.76667 4.66666 12.3667V20.5H3.33333C2.6 20.5 1.97222 20.2389 1.45 19.7167C0.927775 19.1944 0.666664 18.5667 0.666664 17.8333V15.1667C0.666664 14.7 0.783331 14.2611 1.01666 13.85C1.25 13.4389 1.57778 13.1111 2 12.8667L2.1 11.1C2.27778 9.58889 2.71666 8.18889 3.41666 6.9C4.11666 5.61111 4.99444 4.48889 6.05 3.53333C7.10555 2.57778 8.31666 1.83333 9.68333 1.3C11.05 0.766667 12.4889 0.5 14 0.5C15.5111 0.5 16.9444 0.766667 18.3 1.3C19.6556 1.83333 20.8667 2.57222 21.9333 3.51667C23 4.46111 23.8778 5.57778 24.5667 6.86667C25.2556 8.15556 25.7 9.55556 25.9 11.0667L26 12.8C26.4222 13 26.75 13.3 26.9833 13.7C27.2167 14.1 27.3333 14.5222 27.3333 14.9667V18.0333C27.3333 18.4778 27.2167 18.9 26.9833 19.3C26.75 19.7 26.4222 20 26 20.2V21.8333C26 22.5667 25.7389 23.1944 25.2167 23.7167C24.6944 24.2389 24.0667 24.5 23.3333 24.5H12.6667ZM10 15.1667C9.62222 15.1667 9.30555 15.0389 9.05 14.7833C8.79444 14.5278 8.66666 14.2111 8.66666 13.8333C8.66666 13.4556 8.79444 13.1389 9.05 12.8833C9.30555 12.6278 9.62222 12.5 10 12.5C10.3778 12.5 10.6944 12.6278 10.95 12.8833C11.2056 13.1389 11.3333 13.4556 11.3333 13.8333C11.3333 14.2111 11.2056 14.5278 10.95 14.7833C10.6944 15.0389 10.3778 15.1667 10 15.1667ZM18 15.1667C17.6222 15.1667 17.3056 15.0389 17.05 14.7833C16.7944 14.5278 16.6667 14.2111 16.6667 13.8333C16.6667 13.4556 16.7944 13.1389 17.05 12.8833C17.3056 12.6278 17.6222 12.5 18 12.5C18.3778 12.5 18.6944 12.6278 18.95 12.8833C19.2056 13.1389 19.3333 13.4556 19.3333 13.8333C19.3333 14.2111 19.2056 14.5278 18.95 14.7833C18.6944 15.0389 18.3778 15.1667 18 15.1667ZM6.03333 13.1C5.87777 10.7444 6.58889 8.72222 8.16666 7.03333C9.74444 5.34444 11.7111 4.5 14.0667 4.5C16.0444 4.5 17.7833 5.12778 19.2833 6.38333C20.7833 7.63889 21.6889 9.24444 22 11.2C19.9778 11.1778 18.1167 10.6333 16.4167 9.56667C14.7167 8.5 13.4111 7.05556 12.5 5.23333C12.1444 7.01111 11.3944 8.59444 10.25 9.98333C9.10555 11.3722 7.7 12.4111 6.03333 13.1Z"
-            fill="#0058D0"
-          />
-        </svg>
-        <p>Hace tu seguro Ahora</p>
-      </button>
+          {isAuto ? "Comenzar Cotización Online" : "Solo disponible por WhatsApp"}
+        </button>
+      </div>
     </div>
   );
 }
