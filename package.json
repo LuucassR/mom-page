@@ -31,8 +31,8 @@
     "dev": "concurrently \"npm:dev:server\" \"npm:dev:client\"",
     "dev:client": "vite",
     "dev:server": "tsx watch src/server.ts",
-    "build": "vite build && tsc --project tsconfig.server.json && npx prisma generate",
+    "build": "npx prisma generate && vite build && tsc --project tsconfig.server.json",
     "preview": "vite preview",
-    "start": "node dist/server.js"
+    "start": "node dist/src/server.js"
   }
 }
