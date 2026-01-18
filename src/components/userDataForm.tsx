@@ -17,7 +17,7 @@ const UserDataForm: React.FC = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:8080/userData", {
+      const response = await fetch("/userData", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),

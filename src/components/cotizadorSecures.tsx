@@ -121,7 +121,7 @@ const CotizadorSeguros: React.FC = () => {
       tipoSeguro: formData.tipoSeguro,
     };
     try {
-      await fetch("http://localhost:8080/carData", {
+      await fetch("/carData", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dataToSubmit),

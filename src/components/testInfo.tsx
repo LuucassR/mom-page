@@ -6,7 +6,7 @@ export default function Test() {
 
 
   async function getData() {
-    await fetch("http://localhost:8080/getCotizaciones")
+    await fetch("/getCotizaciones")
       .then((response) => response.json())
       .then((data) => setData(data));
     console.log(data)
