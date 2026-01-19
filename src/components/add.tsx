@@ -30,7 +30,7 @@ export default function Add({ type, image }: AdProps) {
 
           <div className="flex justify-center md:justify-start">
             <a 
-              href="https://wa.me/3424483534" 
+              href="https://wa.me/3424483534?text=Hola!%20Estuve%20viendo%20tu%20web%20y%20me%20gustar%C3%ADa%20recibir%20asesor%C3%ADa%20sobre%20qu%C3%A9%20seguro%20me%20conviene%20m%C3%A1s.%20%C2%BFPodemos%20hablar%3F" 
               target="_blank" 
               rel="noreferrer"
               className="group bg-[#25D366] hover:bg-[#20ba5a] text-white px-8 py-4 rounded-2xl font-bold text-lg flex items-center gap-3 transition-all shadow-lg hover:shadow-green-500/40 hover:-translate-y-1 active:scale-95"
