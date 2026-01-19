@@ -15,6 +15,7 @@ const pool = new pg.Pool({
 });
 
 const app = express();
+app.set("trust proxy", 1)
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -48,16 +49,16 @@ app.use(
   session({
     store: new PgSession({
       pool,
-      tableName: "session",
+      tableName: "session", // Asegúrate que la tabla exista en Postgres
     }),
     secret: process.env.SESSION_SECRET!,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: false, // Cámbialo a false para no llenar la DB de sesiones vacías
     name: "mipagina.sid",
     cookie: {
-      secure: process.env.NODE_ENV === "production",
+      secure: true, // Railway usa SSL
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: "none", 
       maxAge: 1000 * 60 * 60 * 24,
     },
   }),
