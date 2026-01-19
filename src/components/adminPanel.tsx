@@ -14,7 +14,6 @@ const AdminPanel: React.FC = () => {
         credentials: "include",
       });
       const result = await response.json();
-      console.log(response)
       setData(result);
     } catch (error) {
       console.error("Error cargando cotizaciones:", error);

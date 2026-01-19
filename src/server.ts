@@ -176,7 +176,6 @@ app.get("/dashboard/data", async (_req, res) => {
   const data = await prisma.user.findMany({
     include: { cotizacion: true },
   });
-  console.log(data);
 
   res.json(data);
 });
